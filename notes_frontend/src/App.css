@@ -1,104 +1,277 @@
-/* CSS Variables for Theme Management */
+/* Light theme variables using requested palette */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --color-primary: #1976d2;  /* primary */
+  --color-secondary: #424242;/* secondary */
+  --color-accent: #ffca28;   /* accent */
+
+  --bg: #f7f9fc;
+  --card: #ffffff;
+  --border: #e6eaf0;
+  --text: #1f2937;
+  --muted: #6b7280;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 20px rgba(25, 118, 210, 0.08);
+  --radius: 14px;
+
+  --focus: 0 0 0 3px rgba(25,118,210,0.2);
 }
 
+/* Optional dark theme support for the toggle */
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --bg: #0f141b;
+  --card: #1a212b;
+  --border: #263041;
+  --text: #e5e7eb;
+  --muted: #a0aec0;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.4;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Layout */
+.app-root {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+/* Top bar */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: saturate(180%) blur(8px);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.brand-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  box-shadow: 0 0 0 3px rgba(25,118,210,0.15);
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.topbar .actions {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+
+/* Container */
+.container {
+  max-width: 980px;
+  margin: 20px auto;
+  padding: 0 16px 40px;
+}
+
+/* Composer */
+.composer {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.composer-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: #111827;
+  padding: 14px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  transition: box-shadow .2s, border-color .2s, transform .1s;
+}
+
+[data-theme="dark"] .input {
+  background: #0f141b;
+  color: var(--text);
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus);
+}
+
+.helper {
+  margin: 10px 2px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Buttons */
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .05s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn.primary {
+  background: linear-gradient(135deg, var(--color-primary), #1e88e5);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(25,118,210,0.25);
+}
+.btn.primary:hover { filter: brightness(1.05); }
+
+.btn.ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn.ghost:hover { background: color-mix(in srgb, var(--color-primary) 10%, transparent); }
+
+.btn.danger {
+  background: transparent;
+  color: #d32f2f;
+  border-color: #ffcdd2;
+}
+.btn.danger:hover {
+  background: #fff1f0;
+}
+[data-theme="dark"] .btn.danger:hover {
+  background: #2a1f1f;
+}
+
+.btn.small {
+  padding: 8px 12px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+/* Notes grid */
+.notes-section { margin-top: 18px; }
+
+.notes-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) );
+  gap: 14px;
+}
+
+.note-card {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--shadow-md);
+  min-height: 100px;
+}
+
+.note-text {
+  font-size: 15px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.note-footer {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 10px;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.note-time {
+  color: var(--muted);
+  font-size: 12px;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Empty state */
+.empty {
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px 16px;
+  color: var(--muted);
+  box-shadow: var(--shadow-md);
+}
+.empty-graphic {
+  font-size: 44px;
+  margin-bottom: 6px;
+}
+.empty-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--text);
+}
+.empty-subtitle {
+  margin: 6px 0 0;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+/* Footer */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .composer-form {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .topbar .actions {
+    position: static;
+    padding: 0 20px 10px;
+    text-align: right;
   }
 }
